@@ -1,0 +1,46 @@
+{
+  "name": "angular-processing-video",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "^1.5.7",
+    "angular-material": "^1.1.0-rc.5",
+    "browserify": "^13.0.1",
+    "jasmine": "^2.3.1",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.15",
+    "karma-jasmine": "^0.1.6",
+    "karma-phantomjs-launcher": "^0.2.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-preset-es2015": "^6.9.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-clean": "^0.3.2",
+    "gulp-connect": "^4.2.0",
+    "gulp-eslint": "^3.0.1",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sass": "^2.3.2",
+    "karma-babel-preprocessor": "^6.0.1",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "scripts": {
+    "test": "karma start karma.conf.js"
+  },
+  "keywords": [
+    "angular",
+    "gulp",
+    "karma",
+    "jasmine",
+    "youtube",
+    "api",
+    "vimeo",
+    "api",
+    "angular",
+    "component"
+  ],
+  "author": "Patrick Tluszcz <patricktluszcz@gmail.com>",
+  "license": "ISC"
+}

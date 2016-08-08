@@ -1,0 +1,14 @@
+.options-grid-view {
+  position: initial;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: 49;
+  margin-left: 30px;
+}
+
+.options-list-view {
+  position: fixed;
+  right: 25px;
+  flex-direction: column;
+  flex: 100;
+}

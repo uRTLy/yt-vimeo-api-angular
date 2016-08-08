@@ -27,6 +27,7 @@
         ],
         "curly": 2,
         "no-empty-character-class": 2,
-        
+        "no-unused-vars": 0,
+        "no-console": 0
     }
 }

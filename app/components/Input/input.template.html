@@ -1,0 +1,46 @@
+<layout layout="row" layout-wrap layout-align="center center" flex="100">
+
+<md-input-container >
+  <label>Paste your URLs splitted by comma or space.</label>
+  <textarea class="input-urls" ng-model="$ctrl.usersInput" md-select-on-focus required> </textarea>
+  <md-button ng-click="$ctrl.onSubmit();"> Fetch Videos </md-button>
+  <md-button class="md-primary" ng-click="$ctrl.getData();">Load Demo Collection</md-button>
+
+  <md-button ng-show="$ctrl.inputOptions.pages.length" ng-click="$ctrl.showOptions = ( $ctrl.showOptions ) ? false : true; " > {{ ( $ctrl.showOptions ) ? "Hide Options" : "Options" }} </md-button>
+</md-input-container>
+
+
+
+<layout ng-show="$ctrl.showOptions" ng-class="{ 'options-list-view': $ctrl.state.listView, 'options-grid-view': !$ctrl.state.listView }" >
+<md-input-container>
+    <label> items on page </label>
+  <md-select ng-model="$ctrl.state.itemsPerPage" ng-change="$ctrl.passNewState();" aria-label="select">
+  <md-option ng-repeat="page in $ctrl.inputOptions.itemsPerPageOptions" ng-value="{{page}}"> {{ page }}  </md-option>
+  </md-select>
+</md-input-container>
+
+<md-input-container>
+  <label>Sort by</label>
+<md-select ng-model="$ctrl.state.orderBy" ng-change="$ctrl.passNewState();">
+  <md-option ng-value="option.value" ng-repeat="option in $ctrl.inputOptions.orderByOptions">{{ option.option }}</md-option>
+</md-select>
+  </md-input-container>
+
+<md-input-container>
+<label>Pages</label>
+<md-select  ng-model="$ctrl.state.pageNumber" ng-change="$ctrl.passNewState();">
+  <md-option pagination ng-value="{{page}}" ng-repeat="page in $ctrl.inputOptions.pages" >{{ page + 1 }}</md-button pagination>
+</md-select>
+</md-input-container>
+
+<md-switch ng-model="$ctrl.state.listView" ng-change="$ctrl.passNewState();" aria-label="Finished?">
+Switch to {{ ( $ctrl.state.listView ) ? "Grid View" : "List View" }}
+</md-switch>
+
+<label>  Favourite </label>
+<md-checkbox ng-model="$ctrl.state.showFavourite" ng-change="$ctrl.passNewState();"> </md-checkbox>
+
+<md-button class="md-warn md-hue-2" ng-click="$ctrl.removeVideos();">Remove all Videos</md-button>
+</layout>
+
+</layout>

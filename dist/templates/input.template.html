@@ -6,7 +6,7 @@
   <md-button ng-click="$ctrl.onSubmit();"> Fetch Videos </md-button>
   <md-button class="md-primary" ng-click="$ctrl.getData();">Load Demo Collection</md-button>
 
-  <md-button ng-show="$ctrl.inputOptions.pages.length" ng-click="$ctrl.showOptions = ( $ctrl.showOptions ) ? false : true; " > {{ ( $ctrl.showOptions ) ? "Hide Options" : "Options" }} </md-button>
+  <md-button ng-show="$ctrl.inputOptions.pages.length" ng-click="!$ctrl.showOptions" > {{ ( $ctrl.showOptions ) ? "Hide Options" : "Options" }} </md-button>
 </md-input-container>
 
 
@@ -38,7 +38,7 @@ Switch to {{ ( $ctrl.state.listView ) ? "Grid View" : "List View" }}
 </md-switch>
 
 <label>  Favourite </label>
-<md-checkbox ng-model="$ctrl.state.showFavourite" ng-change="$ctrl.passNewState();"> </md-checkbox>
+<md-checkbox ng-model="$ctrl.state.showFavourite" ng-change="$ctrl.passNewState();" aria-label="Favourite"> </md-checkbox>
 
 <md-button class="md-warn md-hue-2" ng-click="$ctrl.removeVideos();">Remove all Videos</md-button>
 </layout>

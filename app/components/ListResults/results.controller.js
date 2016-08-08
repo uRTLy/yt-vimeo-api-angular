@@ -4,7 +4,6 @@ import angular from "angular";
 export default class ResultsController {
   constructor(PaginationService, $mdDialog){
     this.PaginationService = PaginationService;
-    this.previousVideos = [];
     this.previousPageNumber = 1;
     this.$mdDialog = $mdDialog;
   }
@@ -57,25 +56,23 @@ export default class ResultsController {
     return videos.sort(compareFunction);
   }
   isPageNumberAvailable(actualPageNumber, pages){
-    const pagesContainsActualPageNumber = pages.some( pageNumber => pageNumber >= actualPageNumber );
+    const highestPageNumberPossible = pages.some( pageNumber => pageNumber >= actualPageNumber );
 
-    if(!pagesContainsActualPageNumber){
+    if(!highestPageNumberPossible){
       return Math.max(...pages);
     }
     return actualPageNumber;
   }
   updateNumberOfPages(pages){
-    const newPages = {
+    const $event = {
       $event: {
         pages
       }
     };
-    this.updatePages(newPages);
+    this.updatePages($event);
   }
   onClickDeleteVideo(videoToRemove){
-    const removeFromAllVideos = (video) => video !== videoToRemove;
-    const videos = this.state.videos.filter(removeFromAllVideos);
-    console.log(videos);
+    const videos = this.state.videos.filter(video => video !== videoToRemove);
     const $event = {
       $event: {
         videos
@@ -84,6 +81,7 @@ export default class ResultsController {
     this.updateState($event);
   }
   onClickPlayVideo(url){
+
     this.$mdDialog.show({
       template: `
       <md-dialog>
@@ -99,7 +97,6 @@ export default class ResultsController {
       fullscreen: true
     });
   }
-
 }
 
 ResultsController.$inject = ["PaginationService", "$mdDialog"];

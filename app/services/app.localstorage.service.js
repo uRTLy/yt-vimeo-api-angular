@@ -1,9 +1,7 @@
 
 
-export default class CookiesService {
-  constructor(){
-    console.log(window.localStorage);
-  }
+export default class LocalStorage {
+  constructor(){}
   updateStorage(state){
     window.localStorage.setItem("state", JSON.stringify(state));
   }

@@ -5,13 +5,13 @@ import Common from "./common.module";
 import ngMaterial from "angular-material";
 import FetchData from "./fetchData.service.js";
 import PrepareURLs from "./prepareURLs.service.js";
-import CookiesService from "./app.cookies.service.js";
+import LocalStorage from "./app.localstorage.service.js";
 import PaginationService from "./pagination.service.js";
 
 const root = angular
 .module("app", [Components, Common, ngMaterial])
 .component("app", AppComponent)
-.service("CookiesService", CookiesService)
+.service("LocalStorage", LocalStorage)
 .service("PaginationService", PaginationService )
 .service("PrepareURLs", PrepareURLs)
 .service("FetchData", FetchData )

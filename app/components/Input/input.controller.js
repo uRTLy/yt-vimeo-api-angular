@@ -18,14 +18,14 @@ export default class InputController{
   }
   onSubmit(){
     const { usersInput } = this;
-    let preparedURLs = {} || this.PrepareURLs.normalize(usersInput);
+    let preparedURLs = this.PrepareURLs.normalize(usersInput) || {};
     this.usersInput = "";
     const $event = {
       $event: {
         data: preparedURLs
       }
     };
-    this.getData(event);
+    this.getData($event);
 
   }
   passNewState(){

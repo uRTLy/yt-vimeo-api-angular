@@ -12,3 +12,7 @@
   flex-direction: column;
   flex: 100;
 }
+
+.input-urls {
+  max-height: 70px;
+}

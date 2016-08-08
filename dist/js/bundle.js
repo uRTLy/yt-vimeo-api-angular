@@ -67069,13 +67069,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var AppController = function () {
-  function AppController(EventEmitter, FetchData, PrepareURLs, CookiesService) {
+  function AppController(EventEmitter, FetchData, PrepareURLs, LocalStorage) {
     _classCallCheck(this, AppController);
 
     this.FetchData = FetchData;
     this.prepareURLs = PrepareURLs;
     this.demoUrls = this.prepareURLs.normalize(_demoCollection2.default.join(","));
-    this.CookiesService = CookiesService;
+    this.LocalStorage = LocalStorage;
   }
 
   _createClass(AppController, [{
@@ -67099,17 +67099,13 @@ var AppController = function () {
         pages: []
       };
 
-      this.state = this.CookiesService.retrieveFromStorage() || defaultState;
-
-      console.log(this.state);
-      console.log(this.CookiesService.retrieveFromStorage());
+      this.state = this.LocalStorage.retrieveFromStorage() || defaultState;
     }
   }, {
     key: "updateState",
     value: function updateState($event) {
       this.state = Object.assign({}, this.state, $event.state || $event);
-      console.log(this.state);
-      this.CookiesService.updateStorage(this.state);
+      this.LocalStorage.updateStorage(this.state);
     }
   }, {
     key: "getDataAndPass",
@@ -67121,7 +67117,7 @@ var AppController = function () {
       this.FetchData.fetch($event.data || $event).then(function (videos) {
         _this.state.videos = _this.state.videos.concat(videos);
         _this.state = Object.assign({}, _this.state);
-        _this.CookiesService.updateStorage(_this.state);
+        _this.LocalStorage.updateStorage(_this.state);
       });
     }
   }, {
@@ -67133,7 +67129,7 @@ var AppController = function () {
     key: "removeVideos",
     value: function removeVideos() {
       this.state = Object.assign({}, this.state, { videos: [] });
-      this.CookiesService.updateStorage(this.state);
+      this.LocalStorage.updateStorage(this.state);
     }
   }]);
 
@@ -67143,7 +67139,7 @@ var AppController = function () {
 exports.default = AppController;
 
 
-AppController.$inject = ["EventEmitter", "FetchData", "PrepareURLs", "CookiesService"];
+AppController.$inject = ["EventEmitter", "FetchData", "PrepareURLs", "LocalStorage"];
 },{"./demoCollection.js":15,"angular":8}],11:[function(require,module,exports){
 "use strict";
 
@@ -67155,14 +67151,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var CookiesService = function () {
-  function CookiesService() {
-    _classCallCheck(this, CookiesService);
-
-    console.log(window.localStorage);
+var LocalStorage = function () {
+  function LocalStorage() {
+    _classCallCheck(this, LocalStorage);
   }
 
-  _createClass(CookiesService, [{
+  _createClass(LocalStorage, [{
     key: "updateStorage",
     value: function updateStorage(state) {
       window.localStorage.setItem("state", JSON.stringify(state));
@@ -67174,10 +67168,10 @@ var CookiesService = function () {
     }
   }]);
 
-  return CookiesService;
+  return LocalStorage;
 }();
 
-exports.default = CookiesService;
+exports.default = LocalStorage;
 },{}],12:[function(require,module,exports){
 "use strict";
 
@@ -67213,9 +67207,9 @@ var _prepareURLsService = require("./prepareURLs.service.js");
 
 var _prepareURLsService2 = _interopRequireDefault(_prepareURLsService);
 
-var _appCookiesService = require("./app.cookies.service.js");
+var _appLocalstorageService = require("./app.localstorage.service.js");
 
-var _appCookiesService2 = _interopRequireDefault(_appCookiesService);
+var _appLocalstorageService2 = _interopRequireDefault(_appLocalstorageService);
 
 var _paginationService = require("./pagination.service.js");
 
@@ -67223,10 +67217,10 @@ var _paginationService2 = _interopRequireDefault(_paginationService);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var root = _angular2.default.module("app", [_components2.default, _common2.default, _angularMaterial2.default]).component("app", _app2.default).service("CookiesService", _appCookiesService2.default).service("PaginationService", _paginationService2.default).service("PrepareURLs", _prepareURLsService2.default).service("FetchData", _fetchDataService2.default).name;
+var root = _angular2.default.module("app", [_components2.default, _common2.default, _angularMaterial2.default]).component("app", _app2.default).service("LocalStorage", _appLocalstorageService2.default).service("PaginationService", _paginationService2.default).service("PrepareURLs", _prepareURLsService2.default).service("FetchData", _fetchDataService2.default).name;
 
 exports.default = root;
-},{"./app.component":9,"./app.cookies.service.js":11,"./common.module":13,"./components.module":14,"./fetchData.service.js":16,"./pagination.service.js":22,"./prepareURLs.service.js":23,"angular":8,"angular-material":6}],13:[function(require,module,exports){
+},{"./app.component":9,"./app.localstorage.service.js":11,"./common.module":13,"./components.module":14,"./fetchData.service.js":16,"./pagination.service.js":22,"./prepareURLs.service.js":23,"angular":8,"angular-material":6}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -67295,16 +67289,19 @@ var FetchData = function () {
   function FetchData($http, $q) {
     _classCallCheck(this, FetchData);
 
-    this.$http = $http;
-    this.$q = $q;
     this.vimeoURL = "http://vimeo.com/api/v2/video/";
     this.youtubeKEY = "AIzaSyBDV-uheLaZTbyCLTMZ4SO1RhcaM1cMYX4";
     this.youtubeURL = "https://www.googleapis.com/youtube/v3/videos?id=";
     this.youtubeEndOfURL = "&part=snippet,statistics&key=" + this.youtubeKEY;
+    this.$http = $http;
+    this.$q = $q;
     this.handleData = this.handleData.bind(this);
   }
 
   _createClass(FetchData, [{
+    key: "setApisAndURLs",
+    value: function setApisAndURLs(vimeoURL, youtubeURL, ytApi, vimeoAPI) {}
+  }, {
     key: "fetch",
     value: function fetch(data) {
       var $http = this.$http;
@@ -67510,17 +67507,14 @@ var InputController = function () {
     value: function onSubmit() {
       var usersInput = this.usersInput;
 
-      var preparedURLs = {};
-      if (usersInput) {
-        preparedURLs = this.PrepareURLs.normalize(usersInput);
-      }
+      var preparedURLs = this.PrepareURLs.normalize(usersInput) || {};
       this.usersInput = "";
-      var event = {
+      var $event = {
         $event: {
           data: preparedURLs
         }
       };
-      this.getData(event);
+      this.getData($event);
     }
   }, {
     key: "passNewState",
@@ -67741,7 +67735,6 @@ var ResultsController = function () {
     _classCallCheck(this, ResultsController);
 
     this.PaginationService = PaginationService;
-    this.previousVideos = [];
     this.previousPageNumber = 1;
     this.$mdDialog = $mdDialog;
   }
@@ -67826,11 +67819,11 @@ var ResultsController = function () {
   }, {
     key: "isPageNumberAvailable",
     value: function isPageNumberAvailable(actualPageNumber, pages) {
-      var pagesContainsActualPageNumber = pages.some(function (pageNumber) {
+      var highestPageNumberPossible = pages.some(function (pageNumber) {
         return pageNumber >= actualPageNumber;
       });
 
-      if (!pagesContainsActualPageNumber) {
+      if (!highestPageNumberPossible) {
         return Math.max.apply(Math, _toConsumableArray(pages));
       }
       return actualPageNumber;
@@ -67838,21 +67831,19 @@ var ResultsController = function () {
   }, {
     key: "updateNumberOfPages",
     value: function updateNumberOfPages(pages) {
-      var newPages = {
+      var $event = {
         $event: {
           pages: pages
         }
       };
-      this.updatePages(newPages);
+      this.updatePages($event);
     }
   }, {
     key: "onClickDeleteVideo",
     value: function onClickDeleteVideo(videoToRemove) {
-      var removeFromAllVideos = function removeFromAllVideos(video) {
+      var videos = this.state.videos.filter(function (video) {
         return video !== videoToRemove;
-      };
-      var videos = this.state.videos.filter(removeFromAllVideos);
-      console.log(videos);
+      });
       var $event = {
         $event: {
           videos: videos
@@ -67863,6 +67854,7 @@ var ResultsController = function () {
   }, {
     key: "onClickPlayVideo",
     value: function onClickPlayVideo(url) {
+
       this.$mdDialog.show({
         template: "\n      <md-dialog>\n        <md-dialog-content>\n\n          <iframe ng-src=\"" + url + "\" scrolling=\"no\" style=\" width: 700px; height: 460px;  overflow: hidden;\" frameborder=\"0\" allowfullscreen></iframe>\n\n        </md-dialog-content>\n      </md-dialog>",
         parent: _angular2.default.element(document.body),

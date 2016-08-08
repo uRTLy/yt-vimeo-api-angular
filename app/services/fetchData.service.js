@@ -2,15 +2,15 @@
 
 export default class FetchData {
   constructor($http,$q){
-    this.$http = $http;
-    this.$q =  $q;
     this.vimeoURL = "http://vimeo.com/api/v2/video/";
     this.youtubeKEY = "AIzaSyBDV-uheLaZTbyCLTMZ4SO1RhcaM1cMYX4";
     this.youtubeURL = "https://www.googleapis.com/youtube/v3/videos?id=";
     this.youtubeEndOfURL = `&part=snippet,statistics&key=${this.youtubeKEY}`;
+    this.$http = $http;
+    this.$q =  $q;
     this.handleData = this.handleData.bind(this);
-
   }
+  setApisAndURLs(vimeoURL, youtubeURL, ytApi, vimeoAPI ){}
   fetch(data) {
     const { $http, $q, vimeoURL, youtubeURL, youtubeEndOfURL, handleData } = this;
     const {youtube, vimeo } = data;

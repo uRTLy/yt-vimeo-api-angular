@@ -3,11 +3,11 @@ import  demoCollection  from "./demoCollection.js";
 
 
 export default class AppController {
-  constructor( EventEmitter, FetchData, PrepareURLs, CookiesService) {
+  constructor( EventEmitter, FetchData, PrepareURLs, LocalStorage) {
     this.FetchData = FetchData;
     this.prepareURLs = PrepareURLs;
     this.demoUrls = this.prepareURLs.normalize(demoCollection.join(","));
-    this.CookiesService =  CookiesService;
+    this.LocalStorage = LocalStorage;
   }
   $onInit() {
     const orderByOptions = [
@@ -32,23 +32,17 @@ export default class AppController {
       pages: []
     };
 
-    this.state = this.CookiesService.retrieveFromStorage() || defaultState;
-
-    console.log( this.state);
-    console.log(this.CookiesService.retrieveFromStorage());
-
-
+    this.state = this.LocalStorage.retrieveFromStorage() || defaultState;
   }
   updateState($event){
     this.state = Object.assign({}, this.state, $event.state || $event);
-    console.log(this.state);
-    this.CookiesService.updateStorage(this.state);
+    this.LocalStorage.updateStorage(this.state);
   }
   getDataAndPass($event = this.demoUrls){
     this.FetchData.fetch($event.data || $event).then( videos => {
       this.state.videos = this.state.videos.concat(videos);
       this.state = Object.assign({}, this.state);
-      this.CookiesService.updateStorage(this.state);
+      this.LocalStorage.updateStorage(this.state);
     });
   }
   updatePages($event){
@@ -56,9 +50,9 @@ export default class AppController {
   }
   removeVideos(){
     this.state = Object.assign({}, this.state, {videos: []});
-    this.CookiesService.updateStorage(this.state);
+    this.LocalStorage.updateStorage(this.state);
   }
 }
 
 
-AppController.$inject = ["EventEmitter", "FetchData", "PrepareURLs", "CookiesService"];
+AppController.$inject = ["EventEmitter", "FetchData", "PrepareURLs", "LocalStorage"];

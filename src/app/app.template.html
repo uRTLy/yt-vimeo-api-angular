@@ -1,0 +1,16 @@
+<header>
+</header>
+<md-content layout="column"
+  layout-align="center center">
+    <input-component
+      state="$ctrl.state"
+      update-state="$ctrl.updateState($event);"
+      get-data="$ctrl.getData($event);">
+    </input-component>
+
+    <list-results
+      state="$ctrl.state"
+      update-available-pages="$ctrl.updateAvailablePages($event);"
+      update-state="$ctrl.updateState($event);">
+    </list-results>
+</md-content>

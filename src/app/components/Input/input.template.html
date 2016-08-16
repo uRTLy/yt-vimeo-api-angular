@@ -1,0 +1,45 @@
+<layout layout="row" layout-wrap layout-align="center center" flex="100">
+
+    <md-input-container>
+        <label>Paste your URLs splitted by comma or space.</label>
+        <textarea class="input-urls" ng-model="$ctrl.usersInput" md-select-on-focus required> </textarea>
+        <md-button ng-click="$ctrl.onSubmit($ctrl.usersInput);"> Fetch Videos </md-button>
+        <md-button class="md-primary" ng-click="$ctrl.onLoadDemoCollection();">Load Demo Collection</md-button>
+
+        <md-button ng-show="$ctrl.state.pages.length" ng-click="$ctrl.showOptions = !$ctrl.showOptions;" aria-label="Show or hide options"> {{ ($ctrl.showOptions) ? "Hide Options" : "Options" }} </md-button>
+    </md-input-container>
+
+    <layout ng-show="$ctrl.showOptions" ng-class="{ 'options-list-view': $ctrl.state.listView, 'options-grid-view': !$ctrl.state.listView }">
+        <md-input-container>
+            <label> items per page </label>
+            <md-select ng-model="$ctrl.state.itemsPerPage" ng-change="$ctrl.updateState({ $event: $ctrl.state });" aria-label="select items per page">
+                <md-option ng-repeat="item in $ctrl.state.itemsPerPageOptions" ng-value="item"> {{ item }} </md-option>
+            </md-select>
+        </md-input-container>
+
+        <md-input-container>
+            <label>Sort by</label>
+            <md-select ng-model="$ctrl.state.orderBy" ng-change="$ctrl.updateState({ $event: $ctrl.state });" aria-label="Sorting options">
+                <md-option ng-value="option.value" ng-repeat="option in $ctrl.state.orderByOptions">{{ option.option }}</md-option>
+            </md-select>
+        </md-input-container>
+
+        <md-input-container>
+            <label>Pages</label>
+            <md-select ng-model="$ctrl.state.pageNumber" ng-change="$ctrl.updateState({ $event: $ctrl.state });" aria-label="Page number">
+                <md-option ng-value="{{page}}" ng-repeat="page in $ctrl.state.pages">{{ page + 1 }}</md-option>
+            </md-select>
+        </md-input-container>
+
+        <md-switch ng-model="$ctrl.state.listView" ng-change="$ctrl.updateState({ $event: $ctrl.state });" aria-label="List View or Switch View">
+            Switch to {{ ($ctrl.state.listView) ? "Grid View" : "List View" }}
+        </md-switch>
+
+        <label> Favourite </label>
+        <md-checkbox ng-model="$ctrl.state.showFavourite" ng-change="$ctrl.updateState({ $event: $ctrl.state });"> </md-checkbox>
+
+        <md-button class="md-warn md-hue-2" ng-click="$ctrl.onDeleteVideos(); $ctrl.showOptions = !$ctrl.showOptions">Remove all Videos</md-button>
+
+</layout>
+
+</layout>

@@ -22,7 +22,7 @@ export default class AppController {
       videos: [],
       pageNumber: 0,
       listView: false,
-      itemsPerPage: 5,
+      itemsPerPage: 12,
       showFavourite: false,
       orderBy: orderByOptions[0].value,
       itemsPerPageOptions,

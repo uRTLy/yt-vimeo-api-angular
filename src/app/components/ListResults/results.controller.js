@@ -20,6 +20,8 @@ export default class ResultsController {
     }
   }
   onNewStateArrival (state) {
+    if(!state.videos.length) { return; }
+
     const { videos, itemsPerPage, pageNumber } = state;
     const videosSorted = this.sortVideos(videos);
     const { pages, splittedToPages } = this.pagination.setConfig(videosSorted, itemsPerPage).splitToPages();

@@ -3,8 +3,8 @@ import demoCollection from './demoCollection.js';
 export default class InputController {
   constructor (HandleUsersInput) {
     this.handleUsersInput = HandleUsersInput;
-    this.showOptions = this.state.pages.length;
     this.usersInput = '';
+    this.showOptions = this.state.pages.length;
   }
   onSubmit (usersInput) {
     const IDs = this.handleUsersInput.getIDs(usersInput);

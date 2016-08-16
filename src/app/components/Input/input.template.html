@@ -36,7 +36,7 @@
         </md-switch>
 
         <label> Favourite </label>
-        <md-checkbox ng-model="$ctrl.state.showFavourite" ng-change="$ctrl.updateState({ $event: $ctrl.state });"> </md-checkbox>
+        <md-checkbox ng-model="$ctrl.state.showFavourite" ng-change="$ctrl.updateState({ $event: $ctrl.state });" aria-label="Your favourite videos"> </md-checkbox>
 
         <md-button class="md-warn md-hue-2" ng-click="$ctrl.onDeleteVideos(); $ctrl.showOptions = !$ctrl.showOptions">Remove all Videos</md-button>
 
